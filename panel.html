@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Status Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #000000, #0047ab);
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, #FF4500, #FFD700, #32CD32, #1E90FF, #8A2BE2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #console {
+      width: 80%;
+      max-width: 600px;
+      height: 200px;
+      margin-top: 20px;
+      padding: 10px;
+      border: 2px solid #1E90FF;
+      border-radius: 10px;
+      background-color: #111;
+      color: white;
+      font-size: 14px;
+      overflow-y: auto;
+    }
+
+    .log {
+      margin: 5px 0;
+      padding: 5px;
+      border-bottom: 1px solid #444;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 28px; }
+      #console { font-size: 12px; height: 150px; }
+      button { width: 90%; font-size: 14px; }
+    }
+  </style>
+  <script>
+    function updateStatus(buttonNumber) {
+      fetch("/button" + buttonNumber, { method: "POST" })
+        .then(response => response.text())
+        .then(text => {
+          const log = document.createElement("div");
+          log.className = "log";
+          log.innerText = "Logs: " + text;
+          const consoleDiv = document.getElementById("console");
+          consoleDiv.prepend(log);
+          consoleDiv.scrollTop = 0;
+        })
+        .catch(err => alert("Error: " + err));
+    }
+  </script>
+</head>
+<body>
+
+  <h1>Welcome to Mazex Streamer Panel!</h1>
+
+  <div class="button-container">
+    <button onclick="updateStatus(1)">Aimbot Drag!</button>
+    <button onclick="updateStatus(2)">Aimbot On/Off</button>
+    <button onclick="updateStatus(3)">Sniper Scope</button>
+    <button onclick="updateStatus(4)">Sniper Quick Switch</button>
+    <button onclick="updateStatus(5)">M82b Location</button>
+    <button onclick="updateStatus(6)">Chams Menu</button>
+  </div>
+
+  <div id="console">
+    <div class="log">Logs: Dev → Mazex Cheat Ready</div>
+  </div>
+</body>
+</html>
